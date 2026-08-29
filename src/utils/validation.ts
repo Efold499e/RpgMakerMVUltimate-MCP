@@ -264,6 +264,12 @@ const ManageSystemSchema = z.object({
  * Schemas keyed by consolidated tool name. A tool absent here is not validated
  * at this layer (read-only tools, plugin toggles). Values expose Zod's safeParse.
  */
+const RunSkillScriptSchema = z.object({
+  script: z.enum(["validate_project", "check_orphaned_refs", "check_switch_collisions", "find_event_refs", "list_switches", "scaffold_event"]),
+  args: z.record(z.unknown()).optional(),
+  project: z.string().optional(),
+}).passthrough();
+
 export const CONSOLIDATED_SCHEMAS: Record<string, { safeParse: (a: unknown) => { success: boolean; error?: unknown } }> = {
   create_database_entry: CreateDatabaseEntrySchema,
   update_database_entry: UpdateDatabaseEntrySchema,
@@ -272,6 +278,7 @@ export const CONSOLIDATED_SCHEMAS: Record<string, { safeParse: (a: unknown) => {
   edit_map: EditMapSchema,
   manage_map_event: ManageMapEventSchema,
   manage_system: ManageSystemSchema,
+  run_skill_script: RunSkillScriptSchema,
 };
 
 /**

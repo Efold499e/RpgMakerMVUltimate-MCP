@@ -49,7 +49,10 @@
     "postbuild": "node -e \"require('fs').cpSync('knowledge','dist/knowledge',{recursive:true})\"",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "agent": "node tools/deepseek-mv/dist/index.js",
+    "agent:build": "npm --prefix tools/deepseek-mv run build",
+    "agent:install": "npm --prefix tools/deepseek-mv install"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",

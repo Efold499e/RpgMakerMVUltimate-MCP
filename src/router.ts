@@ -13,6 +13,7 @@ import * as mapTools from './tools/mapTools.js';
 import { searchTemplates } from './utils/mapGenerator.js';
 import { analyzeProject } from './intel/analyze.js';
 import { validateConsolidated } from './utils/validation.js';
+import { runSkillScriptTool } from './tools/skillScriptTools.js';
 
 type ExecuteTool = (name: string, args: Record<string, unknown>) => Promise<unknown>;
 
@@ -439,7 +440,7 @@ export const TOOL_NAMES = [
   'query_database', 'create_database_entry', 'update_database_entry', 'delete_database_entry',
   'query_map', 'generate_map', 'edit_map', 'manage_map_event',
   'manage_system', 'get_project_context', 'set_project_path', 'analyze_image',
-  'list_plugins', 'get_plugin_status', 'toggle_plugin', 'analyze_project'
+  'list_plugins', 'get_plugin_status', 'toggle_plugin', 'analyze_project', 'run_skill_script'
 ];
 
 export async function routeTool(executeTool: ExecuteTool, projectPath: string, name: string, args: Record<string, unknown>): Promise<unknown> {
@@ -463,6 +464,7 @@ export async function routeTool(executeTool: ExecuteTool, projectPath: string, n
     case 'set_project_path': return executeTool('set_project_path', { path: requireArg(args, 'path', 'set_project_path') });
     case 'analyze_image': return analyzeImage(executeTool, args);
     case 'analyze_project': return analyzeProject(projectPath, args);
+    case 'run_skill_script': return runSkillScriptTool(args, projectPath);
     default:
       throw new Error('Unknown tool: ' + name);
   }

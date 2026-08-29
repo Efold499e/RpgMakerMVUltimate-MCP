@@ -288,5 +288,19 @@ export const TOOL_DEFINITIONS = [
       },
       required: []
     }
+  },
+  {
+    name: 'run_skill_script',
+    description: 'Run a bundled RPG Maker agent-skill helper script (from the rpgmaker-agent-skills pack, installed under .claude/rpgmaker-scripts/) against the active project and return its report. Scripts are allow-listed and run with --project <activeProject> plus any `args` passed as --flag value pairs (underscores become hyphens; booleans become bare flags; arrays repeat the flag). Available scripts: validate_project (runs ALL consistency checks — orphaned references, switch collisions, dialog refs, database schema — returns a markdown report and exitCode 0/1), check_orphaned_refs (items/skills/weapons/armors/enemies/states/troops referenced but missing, or defined but never used), check_switch_collisions (multiple events writing the same switch with no reading gate), find_event_refs (every event/common-event/troop touching a switch or variable; pass args {"switchId":12} or {"varId":5}), list_switches (System.json switch names with usage counts), scaffold_event (pure generator — prints an event command-list JSON for a pattern chest/shop/inn/door/cutscene/wanderer/plugin-command; takes NO --project, e.g. args {"pattern":"chest","itemId":3}). Checkers never modify the project — use them to catch the bugs the editor never shows before calling manage_map_event.',
+    annotations: { title: 'Run skill script', readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+    inputSchema: {
+      type: 'object',
+      properties: {
+        script: { type: 'string', enum: ['validate_project', 'check_orphaned_refs', 'check_switch_collisions', 'find_event_refs', 'list_switches', 'scaffold_event'], description: 'Which helper script to run' },
+        args: { type: 'object', description: 'CLI arguments as key-value pairs; keys convert underscores to hyphens and are passed as --key value (booleans become bare flags, arrays repeat the flag). Example scaffold_event chest: {"pattern":"chest","itemId":3,"quantity":1}. find_event_refs: {"switchId":12}' },
+        project: { type: 'string', description: 'Optional project path override (defaults to the active project)' }
+      },
+      required: ['script']
+    }
   }
 ];

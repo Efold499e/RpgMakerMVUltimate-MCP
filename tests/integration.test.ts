@@ -24,6 +24,7 @@ beforeAll(() => {
   projectDir = mkdtempSync(path.join(tmpdir(), "rpgmv-test-"));
   mkdirSync(path.join(projectDir, "data"));
   mkdirSync(path.join(projectDir, "img"));
+  writeFileSync(path.join(projectDir, "Game.rpgproject"), ""); // MV manifest marker (needed by skill scripts' version detection)
 
   const emptyDb = JSON.stringify([null]);
   for (const f of ["Actors.json", "Classes.json", "Items.json", "Weapons.json", "Armors.json", "Enemies.json", "States.json", "Troops.json", "Tilesets.json", "CommonEvents.json", "Animations.json"]) {
@@ -52,8 +53,8 @@ afterAll(() => {
 });
 
 describe("consolidated tool surface", () => {
-  it("exposes exactly 13 tools, all annotated and described", () => {
-    expect(TOOL_DEFINITIONS.length).toBe(13);
+  it("exposes 14 tools, all annotated and described", () => {
+    expect(TOOL_DEFINITIONS.length).toBe(14);
     for (const t of TOOL_DEFINITIONS) {
       expect(t.annotations, t.name).toBeDefined();
       expect(t.description.length, t.name).toBeGreaterThan(120);
@@ -62,6 +63,23 @@ describe("consolidated tool surface", () => {
 
   it("keeps the legacy v4 definitions available for legacy mode", () => {
     expect(TOOL_DEFINITIONS_LEGACY.length).toBeGreaterThan(90);
+  });
+});
+
+describe("run_skill_script", () => {
+  it("scaffolds a chest event command list via the bundled skill script", async () => {
+    const result = await dispatchTool("run_skill_script", {
+      script: "scaffold_event",
+      args: { pattern: "chest", itemId: 3, quantity: 1 }
+    }) as { script: string; exitCode: number; report: string };
+    expect(result.script).toBe("scaffold_event");
+    expect(result.exitCode).toBe(0);
+    expect(result.report).toContain('"code": 126');
+    expect(result.report).toContain('"code": 0');
+  });
+
+  it("rejects unknown scripts at the router boundary", async () => {
+    await expect(dispatchTool("run_skill_script", { script: "not-a-real-script" })).rejects.toThrow(/Validation error/);
   });
 });
 

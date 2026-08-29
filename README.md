@@ -38,7 +38,7 @@ npm run build
 RPGMAKER_PROJECT_PATH=/path/to/your/project npm start
 ```
 
-## The 13 tools
+## The 14 tools
 
 | Tool | Purpose |
 |---|---|
@@ -55,6 +55,7 @@ RPGMAKER_PROJECT_PATH=/path/to/your/project npm start
 | `get_project_context` | Project digest, asset index, per-tileset tile IDs, bundled-template catalog |
 | `set_project_path` | Switch projects at runtime |
 | `analyze_image` | Optional Vision-AI image analysis, plus offline tileset grid measurement and quadrant colors |
+| `run_skill_script` | Run the bundled rpgmaker-agent-skills helper scripts (`validate_project`, `check_orphaned_refs`, `check_switch_collisions`, `find_event_refs`, `list_switches`, `scaffold_event`) against the project — the consistency checkers the editor never shows, plus event-command scaffolding |
 
 ## Scaffold, run & write safety
 
@@ -166,6 +167,16 @@ This server is actively developed and **feedback is very welcome** — bug repor
 - Town and dungeon layouts keep improving — planned: central plaza/well landmark, houses in rows facing roads, fences/yards, richer road networks, more dungeon-room variety.
 - Vision AI is optional and requires your own endpoint.
 
+## DeepSeek agent (tools/deepseek-mv)
+
+A standalone agent CLI that drives this MCP server with the DeepSeek API. It loads the installed `rpgmaker-agent-skills` pack (`.claude/skills`) into the system prompt so edits follow the engine's safety rules, and supports **multimodal** image input via `deepseek-v4-flash-vision-exp`. See [`tools/deepseek-mv/README.md`](tools/deepseek-mv/README.md).
+
+```bash
+npm run agent:build
+npm run agent -- "Add a blacksmith NPC to Map003" --project D:\\Games\\MyGame
+npm run agent -- "Describe this screenshot" --image shot.png --project D:\\Games\\MyGame
+```
+
 ## Development
 
 ```bash
@@ -175,7 +186,7 @@ npm test           # vitest
 npm run dev        # tsx watch mode
 ```
 
-Source: `src/server.ts` (tool handlers), `src/toolDefinitions.ts` + `src/router.ts` (the 13-tool surface), `src/tools/*` (per-domain CRUD), `src/utils/mapGenerator.ts` (template cloning + procedural generation), `src/intel/*` (the read-only project-intelligence layer behind `analyze_project`), `knowledge/` (static reference data + bundled maps).
+Source: `src/server.ts` (tool handlers), `src/toolDefinitions.ts` + `src/router.ts` (the 14-tool surface), `src/tools/*` (per-domain CRUD), `src/utils/mapGenerator.ts` (template cloning + procedural generation), `src/intel/*` (the read-only project-intelligence layer behind `analyze_project`), `knowledge/` (static reference data + bundled maps).
 
 [![DiegoLopez0208/RpgMakerMVUltimate-MCP MCP server](https://glama.ai/mcp/servers/DiegoLopez0208/RpgMakerMVUltimate-MCP/badges/score.svg)](https://glama.ai/mcp/servers/DiegoLopez0208/RpgMakerMVUltimate-MCP)
 

@@ -1,0 +1,27 @@
+{
+  "name": "deepseek-mv",
+  "version": "0.1.0",
+  "description": "DeepSeek-powered agent CLI for RPG Maker MV — drives the rpgmaker-mv-mcp server (project files), loads the rpgmaker-agent-skills pack for safety rules, and supports multimodal image input via deepseek-v4-flash-vision-exp.",
+  "type": "module",
+  "bin": {
+    "deepseek-mv": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "license": "MIT"
+}
