@@ -1,0 +1,15 @@
+{
+  "servers": {
+    "rpgmaker-mv": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}\\dist\\index.js"
+      ],
+      "env": {
+        "RPGMAKER_PROJECT_PATH": "${workspaceFolder}\\..\\docs\\test",
+        "RPGMAKER_SKILL_SCRIPTS": "${workspaceFolder}\\.claude\\rpgmaker-scripts\\scripts"
+      }
+    }
+  }
+}

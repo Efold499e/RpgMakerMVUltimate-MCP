@@ -64,8 +64,8 @@ export const TOOL_DEFINITIONS_LEGACY = [
         faceIndex: { type: ['number', 'string'], description: 'Which of the 8 faces in the face sheet to use (0-7)' },
         battlerName: { type: 'string', description: 'Side-view battle sprite filename in img/sv_actors/ without extension' },
         profile: { type: 'string', description: 'Two-line biography text shown in the status screen' },
-        traits: { type: 'array', description: 'Trait objects {code, dataId, value} granting passive properties (e.g. code 22 = ex-param like hit rate); applied on top of class traits' },
-        equips: { type: 'array', description: 'Initial equipment as item IDs per slot [weapon, shield, head, body, accessory]; 0 = empty slot' },
+        traits: { type: 'array', description: 'Trait objects {code, dataId, value} granting passive properties (e.g. code 22 = ex-param like hit rate); applied on top of class traits', items: { type: 'object' } },
+        equips: { type: 'array', description: 'Initial equipment as item IDs per slot [weapon, shield, head, body, accessory]; 0 = empty slot', items: { type: ['number', 'string'] } },
         note: { type: 'string', description: 'Free-form note field, commonly parsed by plugins for metadata tags like <tag:value>' }
       },
       required: ['name']
@@ -152,11 +152,11 @@ export const TOOL_DEFINITIONS_LEGACY = [
         scope: { type: ['number', 'string'], description: 'Who the item targets when used: 0=none, 1=one enemy, 2=all enemies, 7=one ally, 8=all allies, 11=the user' },
         occasion: { type: ['number', 'string'], description: 'When the item can be used: 0=always, 1=battle only, 2=menu only, 3=never (e.g. quest items)' },
         animationId: { type: ['number', 'string'], description: 'ID from Animations.json played on the target when used; 0 = no animation' },
-        effects: { type: 'array', description: 'Effect objects {code, dataId, value1, value2}; e.g. {code:11, dataId:0, value1:0, value2:500} recovers 500 HP. Common codes: 11=recover HP, 12=recover MP, 21=add state, 22=remove state' },
+        effects: { type: 'array', description: 'Effect objects {code, dataId, value1, value2}; e.g. {code:11, dataId:0, value1:0, value2:500} recovers 500 HP. Common codes: 11=recover HP, 12=recover MP, 21=add state, 22=remove state', items: { type: 'object' } },
         note: { type: 'string', description: 'Free-form note field, commonly parsed by plugins for metadata tags' },
         iconIndex: { type: ['number', 'string'], description: 'Index into img/system/IconSet.png (16 icons per row); e.g. 176 is the default potion icon' },
         itypeId: { type: ['number', 'string'], description: 'Item category: 1=regular item, 2=key item, 3=hidden item A, 4=hidden item B (default 1)' },
-        traits: { type: 'array', description: 'Trait objects {code, dataId, value} (rarely used on items; mainly for plugins)' }
+        traits: { type: 'array', description: 'Trait objects {code, dataId, value} (rarely used on items; mainly for plugins)', items: { type: 'object' } }
       },
       required: ['name']
     }
@@ -177,7 +177,7 @@ export const TOOL_DEFINITIONS_LEGACY = [
           description: 'Flat stat bonuses while equipped, in order [Max HP, Max MP, ATK, DEF, MAT, MDF, AGI, LUK]; e.g. [0,0,15,0,0,0,0,0] adds 15 ATK',
           items: { type: ['number', 'string'] }
         },
-        traits: { type: 'array', description: 'Trait objects {code, dataId, value}; e.g. element of attack, state on hit, extra attack speed' },
+        traits: { type: 'array', description: 'Trait objects {code, dataId, value}; e.g. element of attack, state on hit, extra attack speed', items: { type: 'object' } },
         note: { type: 'string', description: 'Free-form note field for plugin metadata' },
         iconIndex: { type: ['number', 'string'], description: 'Index into img/system/IconSet.png; weapon icons start around 96' },
         etypeId: { type: ['number', 'string'], description: 'Equip slot, normally 1 (weapon); only change for dual-wield setups' },
@@ -202,7 +202,7 @@ export const TOOL_DEFINITIONS_LEGACY = [
           description: 'Flat stat bonuses while equipped, in order [Max HP, Max MP, ATK, DEF, MAT, MDF, AGI, LUK]; e.g. [0,0,0,10,0,5,0,0] adds 10 DEF and 5 MDF',
           items: { type: ['number', 'string'] }
         },
-        traits: { type: 'array', description: 'Trait objects {code, dataId, value}; e.g. element resistance, state immunity' },
+        traits: { type: 'array', description: 'Trait objects {code, dataId, value}; e.g. element resistance, state immunity', items: { type: 'object' } },
         etypeId: { type: ['number', 'string'], description: 'Equip slot this armor occupies: 2=shield, 3=head, 4=body, 5=accessory' },
         note: { type: 'string', description: 'Free-form note field for plugin metadata' },
         iconIndex: { type: ['number', 'string'], description: 'Index into img/system/IconSet.png; armor icons start around 128' }
@@ -276,7 +276,7 @@ export const TOOL_DEFINITIONS_LEGACY = [
             critical: { type: 'boolean', description: 'Whether the skill can critically hit for 3x damage (default false)' }
           }
         },
-        effects: { type: 'array', description: 'Extra effect objects {code, dataId, value1, value2} applied on hit. Common codes: 11=recover HP, 21=add state (value1=chance 0-1), 22=remove state, 31=add buff (value1=turns), 33=add debuff' },
+        effects: { type: 'array', description: 'Extra effect objects {code, dataId, value1, value2} applied on hit. Common codes: 11=recover HP, 21=add state (value1=chance 0-1), 22=remove state, 31=add buff (value1=turns), 33=add debuff', items: { type: 'object' } },
         note: { type: 'string', description: 'Free-form note field for plugin metadata' },
         iconIndex: { type: ['number', 'string'], description: 'Index into img/system/IconSet.png (default 64, a sword icon)' },
         stypeId: { type: ['number', 'string'], description: 'Skill type from the Types tab (default database: 1=Magic, 2=Special); actors need a matching "Add Skill Type" trait to use it' },
@@ -290,7 +290,7 @@ export const TOOL_DEFINITIONS_LEGACY = [
         requiredWtypeId1: { type: ['number', 'string'], description: 'Weapon type that must be equipped to use the skill (0 = no requirement)' },
         requiredWtypeId2: { type: ['number', 'string'], description: 'Alternative required weapon type; either requirement satisfies (0 = none)' },
         messageType: { type: ['number', 'string'], description: 'Which message template the battle log uses (1 = standard)' },
-        traits: { type: 'array', description: 'Trait objects {code, dataId, value} (rarely used on skills; mainly for plugins)' }
+        traits: { type: 'array', description: 'Trait objects {code, dataId, value} (rarely used on skills; mainly for plugins)', items: { type: 'object' } }
       },
       required: ['name']
     }
@@ -483,7 +483,7 @@ export const TOOL_DEFINITIONS_LEGACY = [
         y: { type: ['number', 'string'], description: 'Tile Y position (0-based, top to bottom)' },
         name: { type: 'string', description: 'Event name shown in the editor (also used by search_map_events)' },
         trigger: { type: ['number', 'string'], description: 'How the first page activates: 0=action button (player presses OK facing it), 1=player touch, 2=event touch, 3=autorun (blocks gameplay until done), 4=parallel (runs in background)' },
-        pages: { type: 'array', description: 'Optional full event page objects ({conditions, image, list, trigger, ...}); omit to start with a blank page' }
+        pages: { type: 'array', description: 'Optional full event page objects ({conditions, image, list, trigger, ...}); omit to start with a blank page', items: { type: 'object' } }
       },
       required: ['mapId', 'x', 'y', 'name']
     }
@@ -620,7 +620,7 @@ export const TOOL_DEFINITIONS_LEGACY = [
           properties: {
             code: { type: ['number', 'string'], description: 'MV event command code (see description for common ones)' },
             indent: { type: ['number', 'string'], description: 'Nesting depth inside conditional branches/loops (default 0 = top level)' },
-            parameters: { type: 'array', description: 'Code-specific parameter array; e.g. for 201 (Transfer): [0, mapId, x, y, direction, fadeType]' }
+            parameters: { type: 'array', description: 'Code-specific parameter array; e.g. for 201 (Transfer): [0, mapId, x, y, direction, fadeType]', items: {} }
           },
           required: ['code', 'parameters']
         }
@@ -827,8 +827,8 @@ export const TOOL_DEFINITIONS_LEGACY = [
         name: { type: 'string', description: 'Class name shown in menus (e.g. "Paladin")' },
         params: { type: 'array', description: 'Stat seeds in order [Max HP, Max MP, ATK, DEF, MAT, MDF, AGI, LUK]: full level 1-99 curves are generated automatically (seed value at level 1 growing to 10x at 99). Alternatively pass 8 arrays of 100 per-level values for exact control', items: { type: ['number', 'string'] } },
         expParams: { type: 'array', description: 'EXP curve shape [base, extra, acceleration A, acceleration B] (engine defaults: [30, 20, 30, 30]); higher base = slower leveling', items: { type: ['number', 'string'] } },
-        learnings: { type: 'array', description: 'Skills gained on level-up: [{level, skillId, note}]; skillId must exist in Skills.json (verify with get_skills)' },
-        traits: { type: 'array', description: 'Trait objects {code, dataId, value} every member of this class gets, e.g. weapon proficiencies (code 51) and skill types (code 41)' },
+        learnings: { type: 'array', description: 'Skills gained on level-up: [{level, skillId, note}]; skillId must exist in Skills.json (verify with get_skills)', items: { type: 'object' } },
+        traits: { type: 'array', description: 'Trait objects {code, dataId, value} every member of this class gets, e.g. weapon proficiencies (code 51) and skill types (code 41)', items: { type: 'object' } },
         note: { type: 'string', description: 'Free-form note field for plugin metadata' }
       },
       required: ['name']
@@ -879,9 +879,9 @@ export const TOOL_DEFINITIONS_LEGACY = [
         exp: { type: ['number', 'string'], description: 'EXP awarded to the party when this enemy is defeated' },
         gold: { type: ['number', 'string'], description: 'Gold awarded when defeated' },
         params: { type: 'array', description: 'Fixed combat stats in order [Max HP, Max MP, ATK, DEF, MAT, MDF, AGI, LUK]; unlike actors, enemies do not level', items: { type: ['number', 'string'] } },
-        dropItems: { type: 'array', description: 'Up to 3 loot entries [{kind, dataId, denominator}]; kind: 1=item, 2=weapon, 3=armor; denominator N = 1-in-N drop chance' },
-        actions: { type: 'array', description: 'AI action patterns [{skillId, conditionType, conditionParam1, conditionParam2, rating}]; rating 1-9 weights how often the skill is picked (conditionType 0 = always)' },
-        traits: { type: 'array', description: 'Trait objects {code, dataId, value}, e.g. element weaknesses (code 11) or state immunities (code 14)' }
+        dropItems: { type: 'array', description: 'Up to 3 loot entries [{kind, dataId, denominator}]; kind: 1=item, 2=weapon, 3=armor; denominator N = 1-in-N drop chance', items: { type: 'object' } },
+        actions: { type: 'array', description: 'AI action patterns [{skillId, conditionType, conditionParam1, conditionParam2, rating}]; rating 1-9 weights how often the skill is picked (conditionType 0 = always)', items: { type: 'object' } },
+        traits: { type: 'array', description: 'Trait objects {code, dataId, value}, e.g. element weaknesses (code 11) or state immunities (code 14)', items: { type: 'object' } }
       },
       required: ['name']
     }
@@ -899,7 +899,7 @@ export const TOOL_DEFINITIONS_LEGACY = [
         gold: { type: ['number', 'string'], description: 'Gold awarded on defeat (default 200)' },
         params: { type: 'array', description: 'Combat stats [Max HP, Max MP, ATK, DEF, MAT, MDF, AGI, LUK]; omit for boss-tier defaults', items: { type: ['number', 'string'] } },
         specialSkillId: { type: ['number', 'string'], description: 'Skill from Skills.json used as the boss\'s signature attack in its action pattern (verify with get_skill)' },
-        actions: { type: 'array', description: 'Custom action patterns replacing the default boss pattern [{skillId, conditionType, conditionParam1, conditionParam2, rating}]' }
+        actions: { type: 'array', description: 'Custom action patterns replacing the default boss pattern [{skillId, conditionType, conditionParam1, conditionParam2, rating}]', items: { type: 'object' } }
       },
       required: ['name']
     }
@@ -952,7 +952,7 @@ export const TOOL_DEFINITIONS_LEGACY = [
         autoRemovalTiming: { type: ['number', 'string'], description: 'When the turn counter is checked: 0=never auto-remove, 1=at action end, 2=at turn end' },
         minTurns: { type: ['number', 'string'], description: 'Minimum turns before auto-removal (actual duration is random between min and max; default 1)' },
         maxTurns: { type: ['number', 'string'], description: 'Maximum turns before auto-removal (default 5)' },
-        traits: { type: 'array', description: 'Trait objects {code, dataId, value} defining what the state DOES — without traits (and restriction 0) the state is purely cosmetic. E.g. poison: {code:22, dataId:7, value:-0.1}' },
+        traits: { type: 'array', description: 'Trait objects {code, dataId, value} defining what the state DOES — without traits (and restriction 0) the state is purely cosmetic. E.g. poison: {code:22, dataId:7, value:-0.1}', items: { type: 'object' } },
         message1: { type: 'string', description: 'Battle log when an actor gains the state, e.g. " is poisoned!" (subject name is prepended)' },
         message2: { type: 'string', description: 'Battle log when an enemy gains the state' },
         message3: { type: 'string', description: 'Battle log shown each turn while the state persists' },
@@ -1020,7 +1020,7 @@ export const TOOL_DEFINITIONS_LEGACY = [
         name: { type: 'string', description: 'Common event name shown in the editor' },
         trigger: { type: ['number', 'string'], description: '0=none (run only when called via event command 117; default), 1=autorun while switch is ON (freezes gameplay until done), 2=parallel while switch is ON (runs in background each frame)' },
         switchId: { type: ['number', 'string'], description: 'Game switch that activates the event — REQUIRED in practice when trigger is 1 or 2; pick an ID with get_switches' },
-        list: { type: 'array', description: 'Event commands {code, indent, parameters} to run; a terminator (code 0) is appended automatically if missing. You can also add commands later with add_common_event_command' },
+        list: { type: 'array', description: 'Event commands {code, indent, parameters} to run; a terminator (code 0) is appended automatically if missing. You can also add commands later with add_common_event_command', items: { type: 'object' } },
         note: { type: 'string', description: 'Free-form note field for plugin metadata' }
       },
       required: ['name']
@@ -1067,7 +1067,7 @@ export const TOOL_DEFINITIONS_LEGACY = [
       type: 'object',
       properties: {
         name: { type: 'string', description: 'Troop name shown in the editor and at battle start (e.g. "Slime x2")' },
-        members: { type: 'array', description: 'Enemies in the formation: [{enemyId, x, y, hidden}]; x/y are battle-screen pixel positions (x typically 100-700, y 300-450)' }
+        members: { type: 'array', description: 'Enemies in the formation: [{enemyId, x, y, hidden}]; x/y are battle-screen pixel positions (x typically 100-700, y 300-450)', items: { type: 'object' } }
       },
       required: ['name']
     }
@@ -1179,7 +1179,7 @@ export const TOOL_DEFINITIONS_LEGACY = [
         x: { type: ['number', 'string'], description: 'Tile X position (0-based)' },
         y: { type: ['number', 'string'], description: 'Tile Y position (0-based)' },
         name: { type: 'string', description: 'Event name in the editor (e.g. "Weapon Shop")' },
-        goods: { type: 'array', description: 'Wares as arrays [type, itemId, priceType, price]: type 0=item, 1=weapon, 2=armor; priceType 0=use the database price (price arg ignored), 1=custom price. E.g. [[0, 1, 0, 0], [1, 2, 1, 150]]', items: { type: 'array' } },
+        goods: { type: 'array', description: 'Wares as arrays [type, itemId, priceType, price]: type 0=item, 1=weapon, 2=armor; priceType 0=use the database price (price arg ignored), 1=custom price. E.g. [[0, 1, 0, 0], [1, 2, 1, 150]]', items: { type: 'array', items: {} } },
         characterName: { type: 'string', description: 'Shopkeeper sprite sheet from img/characters/ without extension' },
         characterIndex: { type: ['number', 'string'], description: 'Which of the 8 characters in the sheet to use (0-7)' }
       },
