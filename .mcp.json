@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "rpgmaker-mv": {
+      "command": "node",
+      "args": [
+        "D:\\Users\\Administrator\\Downloads\\RPG.Maker.MV.v1.6.1\\RpgMakerMVUltimate-MCP\\dist\\index.js"
+      ],
+      "env": {
+        "RPGMAKER_SKILL_SCRIPTS": "D:\\Users\\Administrator\\Downloads\\RPG.Maker.MV.v1.6.1\\RpgMakerMVUltimate-MCP\\.claude\\rpgmaker-scripts\\scripts"
+      }
+    }
+  }
+}
